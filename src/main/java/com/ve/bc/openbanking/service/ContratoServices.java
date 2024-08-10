@@ -15,9 +15,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.ve.bc.openbanking.dto.ContratoResponse;
+import com.ve.bc.openbanking.dto.ErrorResponse;
 import com.ve.bc.openbanking.dto.ResponseContratoCts;
 import com.ve.bc.openbanking.dto.RespuestaConError;
-import com.ve.bc.openbanking.dto.ValiContratoRequest;
+import com.ve.bc.openbanking.dto.ContratoRequest;
 
 import com.ve.bc.openbanking.exception.ResourceErroNoFoundServicesException;
 import com.ve.bc.openbanking.repo.ContratoRepository;
@@ -31,7 +32,7 @@ public class ContratoServices {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ContratoServices.class);
 	
 
-	public ResponseEntity<?> getConsulta(ValiContratoRequest request, String tracerId) {
+	public ResponseEntity<?> getConsulta(ContratoRequest request, String tracerId) {
 		ResponseContratoCts responseContratoCts = new ResponseContratoCts();
 		Map<String,String> error = new HashMap<>();
 		
@@ -40,9 +41,11 @@ public class ContratoServices {
 			if (responseContratoCts.getErrorConsulta().getStatus().equals(Boolean.FALSE)) {					
 				return new ResponseEntity<ContratoResponse>(responseContratoCts.getDatosContrato(), HttpStatus.OK);
 			} else {
-	            error.put("codigoError", responseContratoCts.getErrorConsulta().getCodigoError());
-	            error.put("descripcionError", responseContratoCts.getErrorConsulta().getDescripcionError());
-				return new ResponseEntity<Map<String,String>>(error, HttpStatus.NOT_FOUND);
+				ErrorResponse errorDto = new ErrorResponse();
+				errorDto.setCodigoError(responseContratoCts.getErrorConsulta().getCodigoError());
+				errorDto.setDescripcionError(responseContratoCts.getErrorConsulta().getDescripcionError());
+	           
+				return new ResponseEntity<ErrorResponse>(errorDto, HttpStatus.CONFLICT);
 			}
 
 	}

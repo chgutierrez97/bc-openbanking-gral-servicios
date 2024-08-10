@@ -7,12 +7,10 @@ public class ResourceErroNoFoundServicesException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	private String nombreDelRecurso;
-	private String nombeDelService;
-	
-	public ResourceErroNoFoundServicesException(String nombreDelRecurso, String nombeDelService) {
-		super(String.format(" TracerId %s  Error  : '%s'", nombreDelRecurso, nombeDelService));
-		this.nombreDelRecurso = nombreDelRecurso;
-		this.nombeDelService = nombeDelService;
+
+	public ResourceErroNoFoundServicesException(String nombreDelRecurso) {
+		super(String.format("'%s'", nombreDelRecurso));
+		this.nombreDelRecurso = nombreDelRecurso;	
 	}
 
 	public String getNombreDelRecurso() {
@@ -23,13 +21,7 @@ public class ResourceErroNoFoundServicesException extends RuntimeException {
 		this.nombreDelRecurso = nombreDelRecurso;
 	}
 
-	public String getNombeDelService() {
-		return nombeDelService;
-	}
 
-	public void setNombeDelService(String nombeDelService) {
-		this.nombeDelService = nombeDelService;
-	}
 	
 
 }
