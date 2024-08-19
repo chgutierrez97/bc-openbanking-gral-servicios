@@ -20,13 +20,10 @@ import javax.validation.constraints.Size;
 public class ContratoRequest {
 
 	
-	@NotBlank(message = " Es un dato requerido para la solicitd.")
-	//@Size(min = 36,  message = "Debe tener minimo 36 digitos.")
+
 	private String clienteHash;
 	
-	//@Pattern(regexp = "^[A-Z0-9]*$", message = "El campo debe ser alfa numerico y Mayuscula.")
-	//@Size(min = 10,  message = "Debe tener minimo 10 digitos.")
-	@NotBlank(message = " Es un dato requerido para la solicitd.")
+
 	private String clienteRIF;
 
 }

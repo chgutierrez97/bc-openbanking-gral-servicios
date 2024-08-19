@@ -27,9 +27,11 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.web.client.RestTemplate;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -57,6 +59,9 @@ public class ContratoRepository {
     Boolean statusMetodo;
 	@Value("${api.ssl.certif.name}")
     String certifName;
+	
+	@Autowired
+	RestTemplate template;
 	
 				
 			
@@ -184,11 +189,8 @@ public class ContratoRepository {
 		}
 	}
 
-	
-	
 	//*********************************************************** - CON SERTIFICADO TSL - ***********************************************************************
-	
-	
+
 	public ResponseContratoCts getConsultaContratosCtsSsl(ContratoRequest requestContratos, String tracerId) {
 
 		LOGGER.info("Start contratoRepository  : getConsultaContratosCts  RequestId :" + tracerId);

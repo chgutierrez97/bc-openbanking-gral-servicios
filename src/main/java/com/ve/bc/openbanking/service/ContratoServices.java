@@ -9,6 +9,7 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -38,8 +39,14 @@ public class ContratoServices {
 		
 		responseContratoCts = contratoRepository.getConsultaCotrato(request, tracerId);
 
-			if (responseContratoCts.getErrorConsulta().getStatus().equals(Boolean.FALSE)) {					
-				return new ResponseEntity<ContratoResponse>(responseContratoCts.getDatosContrato(), HttpStatus.OK);
+			if (responseContratoCts.getErrorConsulta().getStatus().equals(Boolean.FALSE)) {	
+				HttpHeaders headers = new HttpHeaders();
+		        headers.add("X-Request-Id", tracerId);
+		        
+		        return ResponseEntity.ok()
+                .headers(headers)
+                .body(responseContratoCts.getDatosContrato());
+				//return new ResponseEntity<ContratoResponse>(responseContratoCts.getDatosContrato(), HttpStatus.OK);
 			} else {
 				ErrorResponse errorDto = new ErrorResponse();
 				errorDto.setCodigoError(responseContratoCts.getErrorConsulta().getCodigoError());

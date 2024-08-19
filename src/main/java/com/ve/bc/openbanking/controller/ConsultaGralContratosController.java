@@ -1,5 +1,10 @@
 package com.ve.bc.openbanking.controller;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -7,13 +12,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.ve.bc.openbanking.dto.ContratoResponse;
 import com.ve.bc.openbanking.dto.ErrorDetalles;
@@ -33,7 +43,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/afiliacionValidarContrato")
 
-@Tag(name = "Validacion Afiliacion")
+@Tag(name = "Validacion Contrato")
 public class ConsultaGralContratosController {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConsultaGralContratosController.class);
@@ -43,9 +53,12 @@ public class ConsultaGralContratosController {
 	
 	@Autowired
 	ContratoServices contratoServices;  
+	
+	
 
 
-	@Operation(summary = "${api.doc.summary.cotra.contr}", description = "${api.doc.description.cotra.contr}")
+
+	@Operation(summary = "${api.doc.summary}", description = "${api.doc.description}")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK",
 					content = {
@@ -75,18 +88,23 @@ public class ConsultaGralContratosController {
 	})
 	@PostMapping
 	public ResponseEntity<?> getCosultaContratos(@RequestHeader(value = "X-Request-IP", required = true) String ip, @RequestHeader(value = "X-Request-Id", required = false) String tracerId,
-			@Valid @RequestBody ContratoRequest request, HttpServletResponse response){
+			@Valid @RequestBody ContratoRequest request/*, HttpServletResponse response*/){
 		
 		if (tracerId == null || tracerId == ""){
 			tracerId = utils.generarCodigoTracerId();
 		}
+	 
+		
 			LOGGER.info("Start ConsultaAfiliacionController : getCosultaAfiliacion  RequestId :" + tracerId);
 			LOGGER.info("ConsultaGralContratosController Direccion IP : " + ip);
 			ResponseEntity<?> valiContratosResponse = contratoServices.getConsulta(request, tracerId);
+	
 			LOGGER.info(" End  ConsultaAfiliacionController : getCosultaAfiliacion  RequestId :" + tracerId);
-			response.setHeader("X-Request-Id", tracerId);
+			//response.setHeader("X-Request-Id", tracerId);
 		return valiContratosResponse;
 		
 	}
+	
+
 
 }
