@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class ContratoResponse {
 	
-	private Integer ente;
-	private String contrato;
+	//private Integer ente;
+	//private String contrato;
 	private String estado;
 }

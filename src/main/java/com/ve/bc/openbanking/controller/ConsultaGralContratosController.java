@@ -87,8 +87,8 @@ public class ConsultaGralContratosController {
 					})
 	})
 	@PostMapping
-	public ResponseEntity<?> getCosultaContratos(@RequestHeader(value = "X-Request-IP", required = true) String ip, @RequestHeader(value = "X-Request-Id", required = false) String tracerId,
-			@Valid @RequestBody ContratoRequest request/*, HttpServletResponse response*/){
+	public ResponseEntity<?> getCosultaContratos(@RequestHeader(value = "X-Request-Id", required = false) String tracerId,
+			@Valid @RequestBody ContratoRequest request){
 		
 		if (tracerId == null || tracerId == ""){
 			tracerId = utils.generarCodigoTracerId();
@@ -96,11 +96,10 @@ public class ConsultaGralContratosController {
 	 
 		
 			LOGGER.info("Start ConsultaAfiliacionController : getCosultaAfiliacion  RequestId :" + tracerId);
-			LOGGER.info("ConsultaGralContratosController Direccion IP : " + ip);
-			ResponseEntity<?> valiContratosResponse = contratoServices.getConsulta(request, tracerId);
-	
+			LOGGER.info("ConsultaGralContratosController Direccion IP : " + request.getIp());
+			ResponseEntity<?> valiContratosResponse = contratoServices.getConsulta(request, tracerId);	
 			LOGGER.info(" End  ConsultaAfiliacionController : getCosultaAfiliacion  RequestId :" + tracerId);
-			//response.setHeader("X-Request-Id", tracerId);
+			
 		return valiContratosResponse;
 		
 	}

@@ -19,11 +19,11 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class ContratoRequest {
 
-	
-
+	@NotBlank(message = " Es un dato requerido para la solicitd.")
+	private String ip;
+	@NotBlank(message = " Es un dato requerido para la solicitd.")
 	private String clienteHash;
-	
-
+	@NotBlank(message = " Es un dato requerido para la solicitd.")
 	private String clienteRIF;
 
 }

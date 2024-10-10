@@ -146,12 +146,10 @@ public class ContratoRepository {
 
 			if (Boolean.valueOf(Status)) {
 				
-				NodeList nodeLstCont = document.getElementsByTagName("ns2:contrato");
-				String Contrato = nodeLstCont.item(0).getTextContent();
-				contratoResponse.setContrato(Contrato);
+			
 				NodeList nodeLstEnte = document.getElementsByTagName("ns2:ente");
 				String Ente = nodeLstEnte.item(0).getTextContent();
-				contratoResponse.setEnte(Integer.valueOf(Ente));
+				//contratoResponse.setEnte(Integer.valueOf(Ente));
 				NodeList nodeLstEstado = document.getElementsByTagName("ns2:estado");
 				String Estado = nodeLstEstado.item(0).getTextContent();
 				contratoResponse.setEstado(Estado);
@@ -222,37 +220,37 @@ public class ContratoRepository {
 			CertificateFactory cf = CertificateFactory.getInstance("X.509");
 			LOGGER.info("Paso 3  " +certifName);
 			InputStream caInput = new BufferedInputStream(new FileInputStream(certifName));
-			//LOGGER.info("Paso 4");
+			LOGGER.info("Paso 4");
 			ca = cf.generateCertificate(caInput);
-			//LOGGER.info("Paso 5");
+			LOGGER.info("Paso 5");
 			String keyStoreType = KeyStore.getDefaultType();
-			//LOGGER.info("Paso 6 " +keyStoreType);
+			LOGGER.info("Paso 6 " +keyStoreType);
 			KeyStore keyStore = KeyStore.getInstance(keyStoreType);
-			//LOGGER.info("Paso 7");
+			LOGGER.info("Paso 7");
 			keyStore.load(null, null);
 			keyStore.setCertificateEntry("ca", ca);
-			//LOGGER.info("Paso 8");
+			LOGGER.info("Paso 8");
 			String tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
 			//LOGGER.info("Paso 9 "+tmfAlgorithm);
 			TrustManagerFactory tmf = TrustManagerFactory.getInstance(tmfAlgorithm);
-			//LOGGER.info("Paso 10");
+			LOGGER.info("Paso 10");
 			tmf.init(keyStore);
 			SSLContext context = SSLContext.getInstance("TLS");
-			//LOGGER.info("Paso 11");
+			LOGGER.info("Paso 11");
 			context.init(null, tmf.getTrustManagers(), null);
-			//LOGGER.info("Paso 12");
+			LOGGER.info("Paso 12");
 			url = new URL(UrlCccte);
-			//LOGGER.info("Paso 13");
+			LOGGER.info("Paso 13");
 			connection = (HttpsURLConnection) url.openConnection();
-			//LOGGER.info("Paso 14");
+			LOGGER.info("Paso 14");
 			connection.setSSLSocketFactory(context.getSocketFactory());
-			//LOGGER.info("Paso 15");
+			LOGGER.info("Paso 15");
 			httpConn = (HttpsURLConnection) connection;
-			//LOGGER.info("Paso 16");
+			LOGGER.info("Paso 16");
 			byte[] buffer = new byte[xmlInput.length()];
-			//LOGGER.info("Paso 17");
+			LOGGER.info("Paso 17");
 			buffer = xmlInput.getBytes();
-			//LOGGER.info("Paso 18");
+			LOGGER.info("Paso 18");
 
 			String SOAPAction = "";
 
@@ -262,17 +260,18 @@ public class ContratoRepository {
 			httpConn.setRequestMethod("POST");
 			httpConn.setDoOutput(true);
 			httpConn.setDoInput(true);
-			//LOGGER.info("Paso 19");
+			LOGGER.info("Paso 19");
 			out = httpConn.getOutputStream();
-			//LOGGER.info("Paso 20");
+			LOGGER.info("Paso 20");
 			out.write(buffer);
-			//LOGGER.info("Paso 21");
+			LOGGER.info("Paso 21");
 			out.close();
-
+			LOGGER.info("Paso 21");
 			// Read the response and write it to standard out.
 			isr = new InputStreamReader(httpConn.getInputStream());
+			LOGGER.info("Paso 21");
 			in = new BufferedReader(isr);
-
+			LOGGER.info("Paso 22");
 			while ((responseString = in.readLine()) != null) {
 				outputString = outputString + responseString;
 			}
@@ -284,15 +283,15 @@ public class ContratoRepository {
 
 			NodeList nodeLst = document.getElementsByTagName("ns3:success");
 			String Status = nodeLst.item(0).getTextContent();
-
+			LOGGER.info("Paso 23 "+Status);
 			if (Boolean.valueOf(Status)) {
 				
-				NodeList nodeLstCont = document.getElementsByTagName("ns2:contrato");
-				String Contrato = nodeLstCont.item(0).getTextContent();
-				contratoResponse.setContrato(Contrato);
+				LOGGER.info("Paso 24");
+				
+				
 				NodeList nodeLstEnte = document.getElementsByTagName("ns2:ente");
 				String Ente = nodeLstEnte.item(0).getTextContent();
-				contratoResponse.setEnte(Integer.valueOf(Ente));
+				//contratoResponse.setEnte(Integer.valueOf(Ente));
 				NodeList nodeLstEstado = document.getElementsByTagName("ns2:estado");
 				String Estado = nodeLstEstado.item(0).getTextContent();
 				contratoResponse.setEstado(Estado);
@@ -304,7 +303,7 @@ public class ContratoRepository {
 				LOGGER.info("End  contratoRepository : getConsultaContratosCts  RequestId :" + tracerId);
 				return valiContratosResponse;
 			} else {
-				
+				LOGGER.info("Paso 25");
 				NodeList nodeCod = document.getElementsByTagName("ns0:code");
 				String Cod = nodeCod.item(0).getTextContent();
 				NodeList nodeMsn = document.getElementsByTagName("ns0:message");
@@ -323,7 +322,8 @@ public class ContratoRepository {
 			System.out.println(e.toString());
 			LOGGER.info("End  contratoRepository : getConsultaContratosCts  RequestId :" + tracerId+" >>>>>>> "+e.toString());;
 			throw new ResourceErroServicesException("contratoRepository", "getConsultaContratosCts");
-		} catch (Exception e) {		
+		} catch (Exception e) {	
+			LOGGER.info("Paso 27");
 			LOGGER.info("End  contratoRepository : getConsultaContratosCts  RequestId :" + tracerId +" >>>>>>> "+e.toString());
 			throw new ResourceErroServicesException("contratoRepository", "getConsultaContratosCts");
 		}

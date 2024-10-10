@@ -45,13 +45,11 @@ public class ContratoServices {
 		        
 		        return ResponseEntity.ok()
                 .headers(headers)
-                .body(responseContratoCts.getDatosContrato());
-				//return new ResponseEntity<ContratoResponse>(responseContratoCts.getDatosContrato(), HttpStatus.OK);
+                .body(responseContratoCts.getDatosContrato());				
 			} else {
 				ErrorResponse errorDto = new ErrorResponse();
 				errorDto.setCodigoError(responseContratoCts.getErrorConsulta().getCodigoError());
-				errorDto.setDescripcionError(responseContratoCts.getErrorConsulta().getDescripcionError());
-	           
+				errorDto.setDescripcionError(responseContratoCts.getErrorConsulta().getDescripcionError());	           
 				return new ResponseEntity<ErrorResponse>(errorDto, HttpStatus.CONFLICT);
 			}
 
